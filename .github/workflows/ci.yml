@@ -42,11 +42,18 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: ^1.18
+      - name: install golang migration
+        run: |
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz | tar xvz
+          sudo mv migrate /usr/bin/
+          which migrate
       - name: migrate database
         run: make up
 
       - name: Build
         run: go build -v ./...
+
+
 
       - name: Test
         run: make test
