@@ -1,0 +1,3 @@
+DbName: mysql
+DbSource: root:root@tcp(127.0.0.1:3306)/bank?parseTime=true&loc=Local
+ServerUrl: localhost:8080

@@ -11,4 +11,10 @@ format: # 格式化并检查代码
 #执行所有的单元测试
 test:
 	go test -v -cover ./...
+run:
+	go run server/server.go
+installMock:
+	 go install github.com/golang/mock/mockgen@v1.6.0
+mock:
+
 .phony: up down

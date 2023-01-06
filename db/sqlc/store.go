@@ -13,6 +13,8 @@ type Store struct {
 	db *sql.DB
 }
 
+var Dao *Store
+
 func NewStore(db *sql.DB) *Store {
 	return &Store{
 		Queries: New(db),
