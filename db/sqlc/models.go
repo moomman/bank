@@ -5,6 +5,7 @@
 package db
 
 import (
+	"database/sql"
 	"time"
 )
 
@@ -29,4 +30,14 @@ type Transfer struct {
 	FromAccountID int64     `json:"from_account_id"`
 	Amount        int64     `json:"amount"`
 	CreatedAt     time.Time `json:"created_at"`
+}
+
+type User struct {
+	ID                 int64        `json:"id"`
+	Username           string       `json:"username"`
+	HashPassword       string       `json:"hash_password"`
+	FullName           string       `json:"full_name"`
+	Email              string       `json:"email"`
+	CreateTime         time.Time    `json:"create_time"`
+	PasswordChangeTime sql.NullTime `json:"password_change_time"`
 }

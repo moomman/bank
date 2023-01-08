@@ -13,7 +13,7 @@ const (
 	dbConn = "root:root@tcp(127.0.0.1:3306)/bank?parseTime=true&loc=Local"
 )
 
-var testQueries *Store
+var testQueries Store
 
 //作为一个包内test文件的开始
 func TestMain(m *testing.M) {
@@ -25,7 +25,7 @@ func TestMain(m *testing.M) {
 	q := &Queries{
 		db: conn,
 	}
-	testQueries = &Store{
+	testQueries = &SqlStore{
 		Queries: q,
 		db:      conn,
 	}
