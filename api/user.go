@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/moonman/mbank/token"
 	"net/http"
 	"time"
 
@@ -37,4 +38,34 @@ func (u *user) CreateUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, nil)
+}
+
+func (u *user) Login(c *gin.Context) {
+	var req request.Login
+
+	if err := c.ShouldBind(&req); err != nil {
+		c.JSON(http.StatusBadRequest, utils.ErrS(err))
+		return
+	}
+
+	user, err := db.Dao.GetUserByName(c, req.Username)
+	if err != nil {
+		return
+	}
+
+	err = utils.ComparePassword(user.HashPassword, req.Password)
+	if err != nil {
+		c.JSON(http.StatusNotFound, utils.ErrS(err))
+		return
+	}
+
+	createToken, err := token.TokenMaker.CreateToken(req.Username, 15*time.Minute)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.ErrS(err))
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token": createToken,
+	})
 }

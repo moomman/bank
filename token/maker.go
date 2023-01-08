@@ -11,3 +11,5 @@ type Maker interface {
 
 	VerifyToken(token string) (*PayLoad, error)
 }
+
+var TokenMaker Maker
