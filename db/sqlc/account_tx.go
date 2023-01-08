@@ -11,7 +11,7 @@ type TransferToParams struct {
 	Amount int64 `json:"amount"`
 }
 
-func (s *Store) TransferTo(ctx context.Context, params *TransferToParams) error {
+func (s *SqlStore) TransferTo(ctx context.Context, params *TransferToParams) error {
 	err := s.execTx(ctx, func(q *Queries) error {
 		if err := q.CreateTransfer(ctx, &CreateTransferParams{
 			ToAccountID:   params.To,

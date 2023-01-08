@@ -24,6 +24,6 @@ func InitRouter() *gin.Engine {
 	engine := gin.Default()
 	root := engine.Group("")
 	router.Group.Account.Init(root)
-
+	router.Group.User.Init(root)
 	return engine
 }

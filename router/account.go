@@ -12,5 +12,6 @@ func (account) Init(g *gin.RouterGroup) {
 	group := g.Group("account")
 	{
 		group.POST("transfer", api.Group.Account.Transfer)
+		group.POST("add", api.Group.Account.AddAccount)
 	}
 }

@@ -6,23 +6,32 @@ import (
 	"fmt"
 )
 
+type Store interface {
+	Querier
+	TXer
+}
+
+type TXer interface {
+	TransferTo(ctx context.Context, params *TransferToParams) error
+}
+
 // 使用组合来增强功能
 
-type Store struct {
+type SqlStore struct {
 	*Queries
 	db *sql.DB
 }
 
-var Dao *Store
+var Dao Store
 
-func NewStore(db *sql.DB) *Store {
-	return &Store{
+func NewStore(db *sql.DB) Store {
+	return &SqlStore{
 		Queries: New(db),
 		db:      db,
 	}
 }
 
-func (s *Store) execTx(ctx context.Context, fn func(queries *Queries) error) error {
+func (s *SqlStore) execTx(ctx context.Context, fn func(queries *Queries) error) error {
 	tx, err := s.db.BeginTx(ctx, &sql.TxOptions{
 		Isolation: 4,
 		ReadOnly:  false,

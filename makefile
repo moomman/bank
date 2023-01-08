@@ -3,7 +3,7 @@ up:
 down:
 	migrate -path db/migration -database "mysql://root:root@tcp(localhost:3306)/bank" -verbose down 1
 init:
-	migrate create -ext sql -dir db/migration -seq init_schema
+	migrate create -ext sql -dir db/migration -seq ${d}
 sqlc:
 	sqlc generate
 format: # 格式化并检查代码
@@ -16,5 +16,6 @@ run:
 installMock:
 	 go install github.com/golang/mock/mockgen@v1.6.0
 mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/moonman/mbank/db/sqlc Store
 
-.phony: up down
+.phony: up down init sqlc format test run installMock mock
