@@ -17,5 +17,8 @@ installMock:
 	 go install github.com/golang/mock/mockgen@v1.6.0
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/moonman/mbank/db/sqlc Store
-
+docker-run:
+	docker run --name bank -p 8080:8080 --network aro -d -e DbSource="root:root@tcp(mysql-learn:3306)/bank?parseTime=true&loc=Local" bank:latest
+del-compose-file:
+	docker compose down && docker rmi Container bank-compose-api-1
 .phony: up down init sqlc format test run installMock mock

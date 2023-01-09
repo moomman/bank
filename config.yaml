@@ -1,4 +1,5 @@
 DbName: mysql
 DbSource: root:root@tcp(127.0.0.1:3306)/bank?parseTime=true&loc=Local
-ServerUrl: localhost:8080
+#牢记0.0.0.0和127.0.0.1的区别。。。。
+ServerUrl: 0.0.0.0:8080
 Secret: 12345678901234567890123456789012
