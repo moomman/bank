@@ -13,16 +13,19 @@ jobs:
       - name: Git Checkout Code
         uses: actions/checkout@v3
         id: git_checkout
-
-      - name: Build Docker Image
-        id: buildAndPushImage
-        uses: Abhishek-070/Dockerhub-Build-Push@v1.0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          registry_url: 'docker.io'
-          repository_name: 'bank-compose-api'
-          user_name: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: 'v1.0'
-          docker_file: '.'
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: agoiyanzsa/bank-compose-api:latest
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
